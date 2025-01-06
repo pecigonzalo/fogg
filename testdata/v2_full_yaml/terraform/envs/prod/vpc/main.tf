@@ -51,4 +51,9 @@ module "prod-vpc" {
   vpc_tags                           = local.vpc_tags
   vpn_gateway_id                     = local.vpn_gateway_id
 
+
+  providers = {
+    aws.alias1 = aws.alias2
+    aws.alias3 = aws.alias4
+  }
 }

@@ -13,7 +13,16 @@ defaults:
       role: tfe-si
       version: 3.63.0
 envs:
-  comp1: {}
+  staging:
+    components:
+      comp1:
+        backend:
+          bucket: buck2
+          dynamodb_table: blah
+          kind: s3
+          profile: czi-tfe
+          region: us-west-2
+          account_id: "612168857605"
   comp2: {}
 accounts:
   account: {}
@@ -23,12 +32,17 @@ tfe:
   gh_repo: fogg
   tfe_org: si.prod.tfe.czi.technology
   module_source:  github.com/chanzuckerberg/cztack//aws-aurora-postgres?ref=main
-  variables: []
+  variables: 
+    - env=var.tags.env
+    - owner=var.tags.owner
+    - project
+    - blah # should be filtered out
   extra_vars:
     TFE_AWS_ACCESS_KEY_ID: ""
     TFE_AWS_SECRET_ACCESS_KEY: ""
   providers:
     tfe:
+      custom_provider: true
       enabled: true
       hostname: si.prod.tfe.czi.technology
       version: 0.33.0
